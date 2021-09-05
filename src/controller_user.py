@@ -25,6 +25,14 @@ class UserController:
             print(e)
             return create_response(400, "Error",{}, "Error in create User")
 
+    @staticmethod
+    def list_by_company(company):
+        users_by_company = Users.query.filter_by(company=company)
+        
+        users_json = [user.to_json()
+                        for user in users_by_company]
+
+        return  create_response(200,"users",users_json)
   
 def check_email(email):  
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  
