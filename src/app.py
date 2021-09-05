@@ -32,7 +32,6 @@ def update_by_cnpj(cnpj):
 def delete(cnpj):
     return CompanieController.delete(cnpj)
 
-
 @app.route('/users', methods=["POST"])
 def create_user():
     body = request.get_json()
@@ -41,5 +40,9 @@ def create_user():
 @app.route('/users/<company>', methods=["GET"])
 def list_users_by_company(company):
     return UserController.list_by_company(company)
+
+@app.route('/users/<user_id>', methods=["DELETE"])
+def delete_user_id(user_id):
+    return UserController.delete(user_id)
 
 app.run()

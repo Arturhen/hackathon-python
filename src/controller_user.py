@@ -1,4 +1,7 @@
-import re   
+import re
+
+from flask.wrappers import Response
+
 
 from config import db
 from models import Users 
@@ -34,6 +37,21 @@ class UserController:
 
         return  create_response(200,"users",users_json)
   
+    @staticmethod
+    def delete(user_id):
+        user_obj = Users.query.filter_by(id=user_id).first()
+
+        if(user_obj is None):
+            return Response(status=404)
+
+        try:
+            db.session.delete(user_obj)
+            db.session.commit()
+            return create_response(204,"User",user_obj.to_json(), "Successful deleted")
+        except Exception as e:
+            print(e)
+            return create_response(400,"User",{},"Error in delete user")
+
 def check_email(email):  
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  
 
