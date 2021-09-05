@@ -52,6 +52,40 @@ class UserController:
             print(e)
             return create_response(400,"User",{},"Error in delete user")
 
+    @staticmethod
+    def update(user_id,body):
+        user_obj = Users.query.filter_by(id=user_id).first()
+
+        
+
+        if(user_obj is None):
+            return Response(status=404)
+        
+        try:
+            if('nome' in body):
+                user_obj.nome = body["nome"]
+
+            if('senha' in body):
+                user_obj.senha = body["senha"]
+
+            if('email' in body):
+                if(not check_email(body['email'])):
+                    return  create_response(400,"Error", {"field":"Email invalid format"},"Usuario não Cadastrado")
+                
+                user_by_email = Users.query.filter_by(email=body["email"]).first()
+                if((user_by_email is not None) and (user_by_email.id != user_obj.id)):
+                    return create_response(400,"Error",{"field":"Exist another user with this Email"})        
+
+                user_obj.email = body["email"]
+
+            db.session.add(user_obj)
+            db.session.commit()
+            return create_response(200,"User", user_obj.to_json(),"Update Successful")
+        except Exception as e:
+            print(e)
+            return create_response(400,"User",{},"Error in update User")
+
+
 def check_email(email):  
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  
 

@@ -45,4 +45,9 @@ def list_users_by_company(company):
 def delete_user_id(user_id):
     return UserController.delete(user_id)
 
+@app.route('/users/<user_id>', methods=["PUT"])
+def update_user(user_id):
+    body = request.get_json()
+    return UserController.update(user_id,body)
+
 app.run()
