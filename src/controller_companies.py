@@ -3,7 +3,7 @@ from flask import  Response, json
 from create_response import create_response
 
 from cpf_cnpj.cpf_cnpj import Cnpj
-from blabla import db
+from config import db
 
 
 class CompanieController:
