@@ -1,9 +1,7 @@
 from sqlalchemy.dialects.postgresql import UUID
-from flask import  Response, request, json
+from flask import   request
 
-from cpf_cnpj.cpf_cnpj import Cnpj
-
-from models import Companies
+from controller_user import UserController
 from controller_companies import CompanieController
 from config import app,db
 
@@ -33,5 +31,11 @@ def update_by_cnpj(cnpj):
 @app.route("/companies/<cnpj>",methods=["DELETE"])
 def delete(cnpj):
     return CompanieController.delete(cnpj)
+
+
+@app.route('/users',methods=["POST"])
+def create_user():
+    body = request.get_json()
+    return UserController.create(body)
 
 app.run()
