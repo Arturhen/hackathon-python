@@ -2,7 +2,6 @@ import re
 
 from flask.wrappers import Response
 
-
 from config import db
 from models import Users 
 from create_response import create_response  
@@ -10,6 +9,7 @@ from create_response import create_response
 class UserController:
     @staticmethod
     def create(body):
+        # VERIFICAR SE EXISTE UM EMAIL ANTES
         email = body["email"]
         
         if(not check_email(email)):

@@ -1,9 +1,9 @@
-from sqlalchemy.dialects.postgresql import UUID
 from flask import   request
 
-from controller_user import UserController
 from controller_companies import CompanieController
-from config import app,db
+from controller_user import UserController
+from controller_office import OfficeController
+from config import app
 
 # LIST
 @app.route('/companies', methods=["GET"])
@@ -50,4 +50,9 @@ def update_user(user_id):
     body = request.get_json()
     return UserController.update(user_id,body)
 
+
+@app.route('/offices', methods=["POST"])
+def create_office():
+    body = request.get_json()
+    return OfficeController.create(body)
 app.run()
