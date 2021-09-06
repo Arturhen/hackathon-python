@@ -63,4 +63,9 @@ def list_by_company(id_company):
 def delete_office(id_office):
     return OfficeController.delete(id_office)
 
+@app.route('/offices/<id_office>', methods=["PUT"])
+def upate_office(id_office):
+    body = request.get_json()
+    return OfficeController.update(id_office,body)
+
 app.run()
