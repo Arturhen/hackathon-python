@@ -32,6 +32,10 @@ class CompanieController:
 
     @staticmethod
     def create(body):
+
+        if(not("cnpj" in body)):
+            return create_response(400,"Error", {"field": "cnpj is required"}, "No Create Company")
+
         obj_cnpj = Cnpj(body["cnpj"])
 
         if(not obj_cnpj.validate()):
@@ -76,6 +80,7 @@ class CompanieController:
             print(e)
             return create_response(400, "Company", {}, "Error in update company")
 
+    #TEM QUE DELETAR TODOS USUARIOS E FILIAIS QUANDO FOR DELETADA
     @staticmethod
     def delete(cnpj):
         obj_cnpj = Cnpj(cnpj).format()

@@ -9,13 +9,11 @@ from create_response import create_response
 class UserController:
     @staticmethod
     def create(body):
-        # VERIFICAR SE EXISTE UM EMAIL ANTES
-        email = body["email"]
         
-        if(not check_email(email)):
+        if(("email" not in body) or (not check_email(body["email"]))):
             return  create_response(400,"Error", {"field":"Email invalid format"},"Usuario não Cadastrado")
 
-        if(Users.query.filter_by(email=email).first()):
+        if(Users.query.filter_by(email=body["email"]).first()):
             return create_response(400,"Error",{"field":"Exist another user with this Email"})        
 
         try:
@@ -55,8 +53,6 @@ class UserController:
     @staticmethod
     def update(user_id,body):
         user_obj = Users.query.filter_by(id=user_id).first()
-
-        
 
         if(user_obj is None):
             return Response(status=404)
