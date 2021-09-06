@@ -1,4 +1,3 @@
-from os import stat
 from models import Office
 
 from config import db
@@ -23,4 +22,13 @@ class OfficeController:
             print(e)
             return create_response(400,"Office",{},"Error in create Office")
 
-         
+    @staticmethod
+    def list_by_company(company):
+        offices_by_company = Office.query.filter_by(company=company)
+        
+        offices_json = [office.to_json()
+                        for office in offices_by_company]
+
+        return  create_response(200,"Offices",offices_json)
+    
+    

@@ -4,6 +4,7 @@ from controller_companies import CompanieController
 from controller_user import UserController
 from controller_office import OfficeController
 from config import app
+from models import Office
 
 # LIST
 @app.route('/companies', methods=["GET"])
@@ -50,9 +51,14 @@ def update_user(user_id):
     body = request.get_json()
     return UserController.update(user_id,body)
 
-
 @app.route('/offices', methods=["POST"])
 def create_office():
     body = request.get_json()
     return OfficeController.create(body)
+
+@app.route('/offices/<id_company>', methods=["GET"])
+def list_by_company(id_company):
+    return OfficeController.list_by_company(id_company)
+
+
 app.run()
