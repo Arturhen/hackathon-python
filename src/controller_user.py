@@ -37,12 +37,12 @@ class UserController:
   
     @staticmethod
     def delete(user_id):
-        user_obj = Users.query.filter_by(id=user_id).first()
-
-        if(user_obj is None):
-            return Response(status=404)
 
         try:
+            user_obj = Users.query.filter_by(id=user_id).first()
+
+            if(user_obj is None):
+                return Response(status=404)
             db.session.delete(user_obj)
             db.session.commit()
             return create_response(204,"User",user_obj.to_json(), "Successful deleted")

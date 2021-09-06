@@ -1,3 +1,5 @@
+from flask.wrappers import Response
+
 from models import Office
 
 from config import db
@@ -32,3 +34,17 @@ class OfficeController:
         return  create_response(200,"Offices",offices_json)
     
     
+    @staticmethod
+    def delete(office_id):
+
+        try:
+            office_obj = Office.query.filter_by(id=office_id).first()
+
+            if(office_obj is None):
+                return Response(status=404)
+            db.session.delete(office_obj)
+            db.session.commit()
+            return create_response(204,"Office",office_obj.to_json(), "Successful deleted")
+        except Exception as e:
+            print(e)
+            return create_response(400,"Office",{},"Error in delete user")

@@ -4,7 +4,6 @@ from controller_companies import CompanieController
 from controller_user import UserController
 from controller_office import OfficeController
 from config import app
-from models import Office
 
 # LIST
 @app.route('/companies', methods=["GET"])
@@ -60,5 +59,8 @@ def create_office():
 def list_by_company(id_company):
     return OfficeController.list_by_company(id_company)
 
+@app.route('/offices/<id_office>', methods=["DELETE"])
+def delete_office(id_office):
+    return OfficeController.delete(id_office)
 
 app.run()

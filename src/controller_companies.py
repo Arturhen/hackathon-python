@@ -83,14 +83,15 @@ class CompanieController:
     #TEM QUE DELETAR TODOS USUARIOS E FILIAIS QUANDO FOR DELETADA
     @staticmethod
     def delete(cnpj):
-        obj_cnpj = Cnpj(cnpj).format()
-
-        company_obj = Companies.query.filter_by(cnpj=obj_cnpj).first()
-
-        if(company_obj is None):
-            return Response(status=404)
 
         try:
+            obj_cnpj = Cnpj(cnpj).format()
+
+            company_obj = Companies.query.filter_by(cnpj=obj_cnpj).first()
+
+            if(company_obj is None):
+                return Response(status=404)
+            
             db.session.delete(company_obj)
             db.session.commit()
             return create_response(204, "Company", company_obj.to_json(), "Successful deleted")
