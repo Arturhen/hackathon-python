@@ -17,7 +17,7 @@ class UserController:
             return create_response(400,"Error",{"field":"Exist another user with this Email"})        
 
         try:
-            user = Users(nome=body["nome"], email=body["email"], senha=body["senha"], company=body["company"])
+            user = Users(name=body["name"], email=body["email"], password=body["password"], company=body["company"])
             db.session.add(user)
             db.session.commit()
             return create_response(201, "User",user.to_json(),"Create Successful")
@@ -52,17 +52,18 @@ class UserController:
 
     @staticmethod
     def update(user_id,body):
-        user_obj = Users.query.filter_by(id=user_id).first()
-
-        if(user_obj is None):
-            return Response(status=404)
         
         try:
-            if('nome' in body):
-                user_obj.nome = body["nome"]
+            user_obj = Users.query.filter_by(id=user_id).first()
 
-            if('senha' in body):
-                user_obj.senha = body["senha"]
+            if(user_obj is None):
+                return Response(status=404)
+                
+            if('name' in body):
+                user_obj.name = body["name"]
+
+            if('password' in body):
+                user_obj.password = body["password"]
 
             if('email' in body):
                 if(not check_email(body['email'])):

@@ -1,3 +1,4 @@
+from os import name
 from flask.wrappers import Response
 
 from models import Office
@@ -16,7 +17,7 @@ class OfficeController:
         if(("max_capacity" not in body) or (body["max_capacity"]<0)):
             return create_response(400,"Error",{"field":"max_capacity need greater than 0"})
         try:
-            office = Office(nome=body["nome"], max_capacity=body["max_capacity"], max_percentage_occupation=body["max_percentage_occupation"],company=body["company"])
+            office = Office(name=body["name"], max_capacity=body["max_capacity"], max_percentage_occupation=body["max_percentage_occupation"],company=body["company"])
             db.session.add(office)
             db.session.commit()
             return create_response(201,"Office",office.to_json(),"Create Successful")
@@ -50,14 +51,14 @@ class OfficeController:
 
     @staticmethod
     def update(office_id,body):
-        office_obj = Office.query.filter_by(id=office_id).first()
-
-        if(office_obj is None):
-            return create_response(404, "Office", {})
 
         try:
-            if('nome' in body):
-                office_obj.nome = body["nome"]
+            office_obj = Office.query.filter_by(id=office_id).first()
+
+            if(office_obj is None):
+                return create_response(404, "Office", {})
+            if('name' in body):
+                office_obj.name = body["name"]
             
             if('max_capacity' in body):
                 if(body["max_capacity"]<0):

@@ -47,8 +47,8 @@ class CompanieController:
             return create_response(400, "Error", {"field": "Exist another company with this CNPJ"}, "No Create")
 
         try:
-            company = Companies(nome=body["nome"],
-                                cnpj=cnpj_formated, senha=body["senha"])
+            company = Companies(name=body["name"],
+                                cnpj=cnpj_formated, password=body["password"])
 
             db.session.add(company)
             db.session.commit()
@@ -67,10 +67,10 @@ class CompanieController:
             return create_response(404, "Company", {})
 
         try:
-            if('nome' in body):
-                company_obj.nome = body["nome"]
-            if('senha' in body):
-                company_obj.senha = body["senha"]
+            if('name' in body):
+                company_obj.name = body["name"]
+            if('password' in body):
+                company_obj.password = body["password"]
 
             db.session.add(company_obj)
             db.session.commit()

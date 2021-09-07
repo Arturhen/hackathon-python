@@ -1,4 +1,5 @@
 from flask import   request
+from controller_appointments import AppointmentController
 
 from controller_companies import CompanieController
 from controller_user import UserController
@@ -67,5 +68,10 @@ def delete_office(id_office):
 def upate_office(id_office):
     body = request.get_json()
     return OfficeController.update(id_office,body)
+
+@app.route('/appointments', methods=["POST"])
+def create_appointment():
+    body=request.get_json()
+    return AppointmentController.create(body)
 
 app.run()
