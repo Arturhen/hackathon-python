@@ -1,4 +1,6 @@
 import datetime
+
+from sqlalchemy.sql.sqltypes import Date
 from create_response import create_response
 from models import Appointments
 from config import db
@@ -14,6 +16,11 @@ class AppointmentController:
             return create_response(400,"Appoitment",{"fields":"Incorrect data format, should be YYYY-MM-DD"},"Not Created")
 
         try:
+            have_same_appointment = Appointments.query.filter_by(date=body["date"],user=body["user"]).first()
+            if(have_same_appointment is not None):
+                print(have_same_appointment.date)
+                return create_response(400,"Appointment",{"fields":"Another appointment like this one was set"},"Not Created")
+
             appoitment = Appointments(date=body["date"],office=body["office"],user=body["user"])
             db.session.add(appoitment)
             db.session.commit()
