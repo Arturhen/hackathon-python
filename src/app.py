@@ -1,3 +1,4 @@
+import re
 from flask import   request
 from controller_appointments import AppointmentController
 
@@ -73,5 +74,9 @@ def upate_office(id_office):
 def create_appointment():
     body=request.get_json()
     return AppointmentController.create(body)
+
+@app.route('/appointments/<appointment_id>',methods=["DELETE"])
+def delete_appointment(appointment_id):
+    return AppointmentController.delete(appointment_id)
 
 app.run()

@@ -1,4 +1,4 @@
-import datetime
+from flask.wrappers import Response
 
 from create_response import create_response
 from models import Appointments,Office,Users
@@ -7,7 +7,7 @@ from config import db
 class AppointmentController:
     @staticmethod
     def create(body):
-        #verificar se ta cheio
+        #Ver se é depois do dia
         if("date" not in body):
             return create_response(400,"Appointment",{"fields":"date is required"},"Not Created")
         
@@ -32,8 +32,6 @@ class AppointmentController:
             if(appoitments_in_same_day>=(office.max_percentage_occupation * office.max_capacity)/100):
                 return create_response(400,"Appointment",{},"The Office is full that day")
             
-
-
             appoitment = Appointments(date=body["date"],office=body["office"],user=body["user"])
             db.session.add(appoitment)
             db.session.commit()
@@ -43,8 +41,21 @@ class AppointmentController:
             return create_response(400, "Appointment", {}, "Error in create appointment")
 
     @staticmethod
-    def delete():
-        return True
+    def delete(appointment_id):
+        try:
+            obj_appointment = Appointments.query.filter_by(id=appointment_id).first()
+
+            if(obj_appointment is None):
+                return Response(status=404)
+
+            db.session.delete(obj_appointment)
+            db.session.commit()
+            return create_response(204, "Appointment", obj_appointment.to_json(), "Successful deleted")
+        except Exception as e:
+            print(e)
+            return create_response(400, "Appointment", {}, "Error in delete appointment")
+
+
 
 def validate(date_text):
     try:

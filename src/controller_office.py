@@ -1,4 +1,3 @@
-from os import name
 from flask.wrappers import Response
 
 from models import Office
