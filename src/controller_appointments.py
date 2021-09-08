@@ -7,7 +7,7 @@ from config import db
 class AppointmentController:
     @staticmethod
     def create(body):
-        #verificar se ta cheio, verificar se ambos sao o mesmo id de company,
+        #verificar se ta cheio
         if("date" not in body):
             return create_response(400,"Appointment",{"fields":"date is required"},"Not Created")
         
@@ -16,16 +16,23 @@ class AppointmentController:
 
         try:
 
-            company_by_user = Users.query.filter_by(id=body["user"]).first().company
-            company_by_office = Office.query.filter_by(id=body["office"]).first().company
-            
-            if(company_by_user != company_by_office):
+            user = Users.query.filter_by(id=body["user"]).first()
+            office = Office.query.filter_by(id=body["office"]).first()
+
+            if(user.company != office.company):
                 return create_response(400,"Appointment",{},"You do Not Have authorization")
 
             have_same_appointment = Appointments.query.filter_by(date=body["date"],user=body["user"]).first()
             if(have_same_appointment is not None):
                 print(have_same_appointment.date)
                 return create_response(400,"Appointment",{"fields":"Another appointment like this one was set"},"Not Created")
+
+            appoitments_in_same_day = len(Appointments.query.filter_by(office=body["office"],date=body["date"]).all())
+
+            if(appoitments_in_same_day>=(office.max_percentage_occupation * office.max_capacity)/100):
+                return create_response(400,"Appointment",{},"The Office is full that day")
+            
+
 
             appoitment = Appointments(date=body["date"],office=body["office"],user=body["user"])
             db.session.add(appoitment)
