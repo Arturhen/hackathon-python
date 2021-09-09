@@ -34,7 +34,7 @@ class CompanieController:
     def create(body):
 
         if(not("cnpj" in body)):
-            return create_response(400,"Error", {"field": "cnpj is required"}, "No Create Company")
+            return create_response(400, "Error", {"field": "cnpj is required"}, "No Create Company")
 
         obj_cnpj = Cnpj(body["cnpj"])
 
@@ -80,7 +80,7 @@ class CompanieController:
             print(e)
             return create_response(400, "Company", {}, "Error in update company")
 
-    #TEM QUE DELETAR TODOS USUARIOS E FILIAIS QUANDO FOR DELETADA
+    # TEM QUE DELETAR TODOS USUARIOS E FILIAIS QUANDO FOR DELETADA
     @staticmethod
     def delete(cnpj):
 
@@ -91,7 +91,7 @@ class CompanieController:
 
             if(company_obj is None):
                 return Response(status=404)
-            
+
             db.session.delete(company_obj)
             db.session.commit()
             return create_response(204, "Company", company_obj.to_json(), "Successful deleted")
