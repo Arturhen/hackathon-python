@@ -6,8 +6,6 @@ ADD . /docker-app
 
 RUN pip install --upgrade pip
 
+
 RUN pip install -r requirements.txt
 
-CMD ["python","src/app.py"]
-
-EXPOSE 5000 

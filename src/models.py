@@ -53,4 +53,4 @@ class Appointments(db.Model):
         return {"id":self.id,"date":self.date,"office":self.office,"user":self.office}
 
 #db.drop_all() #Descomente se quiser apagar todos
-# db.create_all() # descomenta se quiser criar o banco
+#db.create_all() # descomenta se quiser criar o banco
