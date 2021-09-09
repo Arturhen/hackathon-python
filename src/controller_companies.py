@@ -2,7 +2,7 @@ from models import Companies
 from flask import Response
 from create_response import create_response
 
-from cpf_cnpj.cpf_cnpj import Cnpj
+from libraries.cpf_cnpj import Cnpj
 from config import db
 
 
