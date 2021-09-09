@@ -79,4 +79,10 @@ def create_appointment():
 def delete_appointment(appointment_id):
     return AppointmentController.delete(appointment_id)
 
+@app.route('/appointments',methods=["GET"])
+def get_appointments():
+    user_id = request.args.get("user",None)
+    office_id = request.args.get("office",None)
+    return AppointmentController.list(user_id,office_id)
+
 app.run()

@@ -1,3 +1,4 @@
+import datetime
 from flask.wrappers import Response
 
 from create_response import create_response
@@ -54,6 +55,35 @@ class AppointmentController:
         except Exception as e:
             print(e)
             return create_response(400, "Appointment", {}, "Error in delete appointment")
+
+
+    @staticmethod
+    def list(user_id , office_id):
+        try:
+            if(user_id is not None):
+                appointments_by_user = Appointments.query.filter_by(user=user_id).all()
+                appointments_by_user_json = [appointment.to_json() for appointment in appointments_by_user]
+                if(office_id is not None):
+                    return create_response(200,"appointments",appointments_by_user_json)
+
+            if(office_id is not None):
+                appointments_by_office = Appointments.query.filter_by(office=office_id).all()
+                appointments_by_office_json = [appointment.to_json() for appointment in appointments_by_office]
+                if(office_id is not None):
+                    return create_response(200,"appointments",appointments_by_office_json)
+
+            appointments_json = []
+            for appointment in appointments_by_user_json:
+                if(appointment in appointments_by_office_json):
+                    appointments_json.append(appointment)
+            
+            return create_response(200,"appointments",appointments_json)
+
+        except Exception as e:
+            print(e)
+            return create_response(400, "Appointment", {}, "Error in list appointments")
+
+
 
 
 
