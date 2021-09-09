@@ -1,4 +1,4 @@
 flask
 flask-sqlalchemy
 psycopg2-binary
-cpf_cnpj
+flask-cors
