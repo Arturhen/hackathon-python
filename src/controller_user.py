@@ -1,11 +1,11 @@
-import re
+import bcrypt
 
 from flask.wrappers import Response
 
 from config import db
 from models import Users
 from create_response import create_response
-
+from check_email import check_email
 
 class UserController:
     @staticmethod
@@ -17,9 +17,11 @@ class UserController:
         if(Users.query.filter_by(email=body["email"]).first()):
             return create_response(400, "Error", {"field": "Exist another user with this Email"})
 
+        password_hash =  bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt(8)).decode('utf8')
+
         try:
             user = Users(name=body["name"], email=body["email"],
-                         password=body["password"], company=body["company"])
+                         password=password_hash, company=body["company"])
             db.session.add(user)
             db.session.commit()
             return create_response(201, "User", user.to_json(), "Create Successful")
@@ -65,7 +67,7 @@ class UserController:
                 user_obj.name = body["name"]
 
             if('password' in body):
-                user_obj.password = body["password"]
+                user_obj.password = bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt(8)).decode('utf8')
 
             if('email' in body):
                 if(not check_email(body['email'])):
@@ -85,11 +87,3 @@ class UserController:
             print(e)
             return create_response(400, "User", {}, "Error in update User")
 
-
-def check_email(email):
-    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-
-    if(re.search(regex, email)):
-        return True
-
-    return False

@@ -5,6 +5,7 @@ from controller_appointments import AppointmentController
 from controller_companies import CompanieController
 from controller_user import UserController
 from controller_office import OfficeController
+from login_controller import LoginController
 from config import app, db
 
 db.create_all()
@@ -98,7 +99,10 @@ def get_appointments():
     office_id = request.args.get("office", None)
     return AppointmentController.list(user_id, office_id)
 
-# app.run()
+@app.route('/login',methods=["POST"])
+def login_companie():
+    body = request.get_json()
+    return LoginController.login_user(body)
 
 
 if __name__ == '__main__':

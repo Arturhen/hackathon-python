@@ -1,8 +1,9 @@
-from models import Companies
-from flask import Response
-from create_response import create_response
-
 from libraries.cpf_cnpj import Cnpj
+from flask import Response
+import bcrypt
+
+from models import Companies
+from create_response import create_response
 from config import db
 
 
@@ -46,9 +47,14 @@ class CompanieController:
         if(Companies.query.filter_by(cnpj=cnpj_formated).first()):
             return create_response(400, "Error", {"field": "Exist another company with this CNPJ"}, "No Create")
 
+        if(not("password" in body)):
+            return create_response(400, "Error", {"field": "password is required"}, "No Create Company")
+
+        password_hash =  bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt(8)).decode('utf8')
+
         try:
             company = Companies(name=body["name"],
-                                cnpj=cnpj_formated, password=body["password"])
+                                cnpj=cnpj_formated, password=password_hash)
 
             db.session.add(company)
             db.session.commit()
@@ -70,7 +76,7 @@ class CompanieController:
             if('name' in body):
                 company_obj.name = body["name"]
             if('password' in body):
-                company_obj.password = body["password"]
+                company_obj.password = bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt(8)).decode('utf8')
 
             db.session.add(company_obj)
             db.session.commit()

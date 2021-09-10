@@ -11,7 +11,7 @@ class Companies(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String(200), nullable=False)
     cnpj = db.Column(db.String(200), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.Text, nullable=False)
     users = db.relationship("Users", cascade="all, delete")
     offices = db.relationship("Office", cascade="all, delete")
 
