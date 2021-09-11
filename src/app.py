@@ -7,12 +7,14 @@ from controller_user import UserController
 from controller_office import OfficeController
 from login_controller import LoginController
 from config import app, db
+from utils.token_required import token_required
 
 db.create_all()
 
 
 @app.route('/companies', methods=["GET"])
-def list():
+@token_required
+def list(current_user):
     return CompanieController.list()
 
 
@@ -104,7 +106,7 @@ def login_companie():
     body = request.get_json()
     if 'cnpj' in body:
         return LoginController.login_company(body)
-        
+
     return LoginController.login_user(body)
     
 

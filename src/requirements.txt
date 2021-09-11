@@ -3,4 +3,4 @@ flask-sqlalchemy
 psycopg2-binary
 flask-cors
 bcrypt
-pyjwt
+PyJWT==1.7.1
