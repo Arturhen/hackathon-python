@@ -37,7 +37,7 @@ class LoginController:
                 return 'Company Not Found!', 404
             
             if bcrypt.checkpw(body["password"].encode('utf-8'), company.password.encode('utf-8')):
-                token = jwt.encode({'id': str(company.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"company"},secret)
+                token = jwt.encode({'id':str(company.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"company"},secret)
                 return create_response(200,"Sucess",{"token":token.decode('UTF-8')})
             else:
                 return 'Invalid Login Info!', 400
@@ -65,7 +65,7 @@ class LoginController:
 
 
             if bcrypt.checkpw(body["password"].encode('utf-8'), user.password.encode('utf-8')):
-                token = jwt.encode({'id':str(user.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"company"},secret)
+                token = jwt.encode({'id':str(user.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"user"},secret)
                 return create_response(200,"Sucess",{"token":token.decode('UTF-8')})
             else:
                 return 'Invalid Login Info!', 400

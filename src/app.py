@@ -12,15 +12,19 @@ from utils.token_required import token_required
 db.create_all()
 
 
+# @app.route('/companies', methods=["GET"])
+# @token_required
+# def list(current_user):
+#     return CompanieController.list()
+
+
 @app.route('/companies', methods=["GET"])
 @token_required
-def list(current_user):
-    return CompanieController.list()
-
-
-@app.route('/companies/<cnpj>', methods=["GET"])
-def find(cnpj):
-    return CompanieController.find(cnpj)
+def find(current_user,type):
+    if (type == "company"):
+        cnpj = current_user.cnpj
+        return CompanieController.find(cnpj)
+    return {"message":'Invalid permission'}, 401 
 
 
 @app.route('/companies', methods=["POST"])

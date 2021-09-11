@@ -26,5 +26,5 @@ def token_required(f):
         except Exception:
             return create_response(401,"Fail Request",{"message": "token is invalid"})
 
-        return f(current_user,*args,**kwargs)
+        return f(current_user,data["type"],*args,**kwargs)
     return decorated

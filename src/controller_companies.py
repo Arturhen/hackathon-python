@@ -20,9 +20,9 @@ class CompanieController:
     @staticmethod
     def find(cnpj):
 
-        obj_cnpj = Cnpj(cnpj).format()
+        # obj_cnpj = Cnpj(cnpj).format()
 
-        company_obj = Companies.query.filter_by(cnpj=obj_cnpj).first()
+        company_obj = Companies.query.filter_by(cnpj=cnpj).first()
 
         if(company_obj is None):
             return create_response(404, "Company", {})
