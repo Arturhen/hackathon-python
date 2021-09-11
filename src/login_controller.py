@@ -1,5 +1,8 @@
-from os import error
+import datetime
 import bcrypt
+from flask.json import jsonify
+import jwt
+
 from create_response import create_response
 from libraries.cpf_cnpj import Cnpj
 from check_email import check_email
@@ -7,8 +10,11 @@ from check_email import check_email
 from models import Companies,Users
 
 class LoginController:
+
+
     @staticmethod
     def login_company(body):
+        secret ='4b6d207afe3bcc9381b1f0301733861277bca526ad029b2a'
           
         try:
 
@@ -28,10 +34,11 @@ class LoginController:
             company = Companies.query.filter_by(cnpj=cnpj_formated).first()
 
             if not company:
-                return f'Company Not Found!', 404
+                return 'Company Not Found!', 404
             
             if bcrypt.checkpw(body["password"].encode('utf-8'), company.password.encode('utf-8')):
-                return f'Logged in, Welcome {cnpj_formated}!', 200
+                token = jwt.encode({'id': str(company.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"company"},secret)
+                return create_response(200,"Sucess",{"token":token})
             else:
                 return 'Invalid Login Info!', 400
         except AttributeError:
@@ -40,6 +47,8 @@ class LoginController:
     @staticmethod
     def login_user(body):
         try:
+            secret ='4b6d207afe3bcc9381b1f0301733861277bca526ad029b2a'
+
             if not 'password'in body:
                 return create_response(400,'Missing password',{})
             
@@ -56,7 +65,8 @@ class LoginController:
 
 
             if bcrypt.checkpw(body["password"].encode('utf-8'), user.password.encode('utf-8')):
-                return f'Logged in, Welcome {user.name}!', 200
+                token = jwt.encode({'id':str(user.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"company"},secret)
+                return create_response(200,"Sucess",{"token":token})
             else:
                 return 'Invalid Login Info!', 400
         except AttributeError:

@@ -102,8 +102,11 @@ def get_appointments():
 @app.route('/login',methods=["POST"])
 def login_companie():
     body = request.get_json()
+    if 'cnpj' in body:
+        return LoginController.login_company(body)
+        
     return LoginController.login_user(body)
-
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
