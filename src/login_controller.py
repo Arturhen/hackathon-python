@@ -40,7 +40,7 @@ class LoginController:
                 token = jwt.encode({'id':str(company.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"company"},secret)
                 return create_response(200,"Sucess",{"token":token.decode('UTF-8')})
             else:
-                return 'Invalid Login Info!', 400
+                return {"mesage":'Invalid Login Info!'}, 400
         except AttributeError:
             return create_response(400,'Provide an Cnpj and Password in JSON format in the request body',{"cnpj":"","password":""})
     
@@ -68,7 +68,7 @@ class LoginController:
                 token = jwt.encode({'id':str(user.id),'exp':datetime.datetime.utcnow() + datetime.timedelta(minutes=30),"type":"user"},secret)
                 return create_response(200,"Sucess",{"token":token.decode('UTF-8')})
             else:
-                return 'Invalid Login Info!', 400
+                return {"mesage":'Invalid Login Info!'}, 400
         except AttributeError:
             return create_response(400,'Provide an Email and Password in JSON format in the request body',{"email":"","password":""})
 
