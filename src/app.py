@@ -77,9 +77,13 @@ def delete_user_id(current_user,type,user_id):
     return {"message":'Invalid permission'}, 401 
 
 @app.route('/users/<user_id>', methods=["PUT"])
-def update_user(user_id):
+@token_required
+def update_user(current_user,type,user_id):
     body = request.get_json()
-    return UserController.update(user_id, body)
+    if (type == "company" and current_user):
+        company_id = current_user.id
+        return UserController.update(user_id, body,company_id)
+    return {"message":'Invalid permission'}, 401 
 
 
 @app.route('/offices', methods=["POST"])

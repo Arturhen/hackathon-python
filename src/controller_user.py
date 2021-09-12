@@ -61,10 +61,10 @@ class UserController:
             return create_response(400, "User", {}, "Error in delete user")
 
     @staticmethod
-    def update(user_id, body):
+    def update(user_id, body,company_id):
 
         try:
-            user_obj = Users.query.filter_by(id=user_id).first()
+            user_obj = Users.query.filter_by(id=user_id,company=company_id).first()
 
             if(user_obj is None):
                 return Response(status=404)
