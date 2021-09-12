@@ -50,10 +50,10 @@ class OfficeController:
             return create_response(400, "Office", {}, "Error in delete user")
 
     @staticmethod
-    def update(office_id, body):
+    def update(office_id, body,company_id):
 
         try:
-            office_obj = Office.query.filter_by(id=office_id).first()
+            office_obj = Office.query.filter_by(id=office_id,company=company_id).first()
 
             if(office_obj is None):
                 return create_response(404, "Office", {})
