@@ -62,22 +62,30 @@ class AppointmentController:
             return create_response(400, "Appointment", {}, "Error in delete appointment")
 
     @staticmethod
-    def list(user_id, office_id):
+    def list(user_id, office_id,company_id):
         try:
             if(user_id is not None):
+                user_valid = Users.query.filter_by(id=user_id,company=company_id).first()
+                if(user_valid is None):
+                    return create_response(401, "appointments", {"message":"Unauthorized"})
+
                 appointments_by_user = Appointments.query.filter_by(
                     user=user_id).all()
                 appointments_by_user_json = [
                     appointment.to_json() for appointment in appointments_by_user]
-                if(office_id is not None):
+                if(office_id is None):
                     return create_response(200, "appointments", appointments_by_user_json)
 
             if(office_id is not None):
+                office_valid = Office.query.filter_by(id=office_id,company=company_id).first()
+                if(office_valid is None):
+                    return create_response(401, "appointments", {"message":"Unauthorized"})
+
                 appointments_by_office = Appointments.query.filter_by(
                     office=office_id).all()
                 appointments_by_office_json = [
                     appointment.to_json() for appointment in appointments_by_office]
-                if(office_id is not None):
+                if(user_id is None):
                     return create_response(200, "appointments", appointments_by_office_json)
 
             appointments_json = []

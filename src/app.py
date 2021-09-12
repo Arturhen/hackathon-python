@@ -154,10 +154,20 @@ def delete_appointment(current_user,type,appointment_id):
 
 
 @app.route('/appointments', methods=["GET"])
-def get_appointments():
-    user_id = request.args.get("user", None)
-    office_id = request.args.get("office", None)
-    return AppointmentController.list(user_id, office_id)
+@token_required
+def get_appointments(current_user,type):
+    if(type == "user" and current_user):
+        company_id = current_user.company
+        user_id = current_user.id
+        office_id = request.args.get("office", None)
+        return AppointmentController.list(user_id, office_id,company_id)
+    if(type =="company" and current_user):
+        company_id = current_user.id
+        office_id = request.args.get("office", None)
+        user_id = request.args.get("user", None)
+        return AppointmentController.list(user_id, office_id,company_id)
+    return {"message":'Invalid permission'}, 401 
+
 
 @app.route('/login',methods=["POST"])
 def login_companie():

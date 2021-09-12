@@ -56,7 +56,7 @@ class Appointments(db.Model):
     user = db.Column(ForeignKey(Users.id), nullable=False)
 
     def to_json(self):
-        return {"id": self.id, "date": self.date, "office": self.office, "user": self.office}
+        return {"id": self.id, "date": self.date, "office": self.office, "user": self.user}
 
 # db.drop_all() #Descomente se quiser apagar todos
 # db.create_all() # descomenta se quiser criar o banco
