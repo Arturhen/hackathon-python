@@ -69,9 +69,12 @@ def list_users_by_company(current_user,type):
 
 
 @app.route('/users/<user_id>', methods=["DELETE"])
-def delete_user_id(user_id):
-    return UserController.delete(user_id)
-
+@token_required
+def delete_user_id(current_user,type,user_id):
+    if (type == "company" and current_user):
+        company_id = current_user.id
+        return UserController.delete(user_id,company_id)
+    return {"message":'Invalid permission'}, 401 
 
 @app.route('/users/<user_id>', methods=["PUT"])
 def update_user(user_id):

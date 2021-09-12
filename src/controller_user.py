@@ -12,16 +12,16 @@ class UserController:
     def create(body,company_id):
 
         if(("email" not in body) or (not check_email(body["email"]))):
-            return create_response(400, "Error", {"field": "Email invalid format"}, "User not Create")
+            return create_response(400, "Error", {"field": "Email invalid format"}, "No Create User")
 
         if(Users.query.filter_by(email=body["email"]).first()):
             return create_response(400, "Error", {"field": "Exist another user with this Email"})
         
         if("password" not in body):
-            return create_response(400, "Error", {"field": "Password is required"}, "User not Create")
+            return create_response(400, "Error", {"field": "Password is required"}, "No Create User")
             
         if("name" not in body):
-            return create_response(400, "Error", {"field": "Name is required"}, "User not Create")
+            return create_response(400, "Error", {"field": "Name is required"}, "No Create User")
         
         password_hash =  bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt(8)).decode('utf8')
 
@@ -46,10 +46,10 @@ class UserController:
         return create_response(200, "users", users_json)
 
     @staticmethod
-    def delete(user_id):
+    def delete(user_id,company_id):
 
         try:
-            user_obj = Users.query.filter_by(id=user_id).first()
+            user_obj = Users.query.filter_by(id=user_id,company=company_id).first()
 
             if(user_obj is None):
                 return Response(status=404)
