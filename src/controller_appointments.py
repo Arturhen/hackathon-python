@@ -46,10 +46,10 @@ class AppointmentController:
             return create_response(400, "Appointment", {}, "Error in create appointment")
 
     @staticmethod
-    def delete(appointment_id):
+    def delete(appointment_id,user_id):
         try:
             obj_appointment = Appointments.query.filter_by(
-                id=appointment_id).first()
+                id=appointment_id,user=user_id).first()
 
             if(obj_appointment is None):
                 return Response(status=404)

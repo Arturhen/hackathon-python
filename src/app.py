@@ -144,8 +144,13 @@ def create_appointment(current_user,type):
 
 
 @app.route('/appointments/<appointment_id>', methods=["DELETE"])
-def delete_appointment(appointment_id):
-    return AppointmentController.delete(appointment_id)
+@token_required
+def delete_appointment(current_user,type,appointment_id):
+    if(type == "user" and current_user):
+        user_id = current_user.id
+        return AppointmentController.delete(appointment_id,user_id)
+    return {"message":'Invalid permission'}, 401 
+
 
 
 @app.route('/appointments', methods=["GET"])
