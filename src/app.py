@@ -105,9 +105,13 @@ def create_office(current_user,type):
         return OfficeController.create(body,company_id)
     return {"message":"Invalid permission"},401
 
-@app.route('/offices/<id_company>', methods=["GET"])
-def list_by_company(id_company):
-    return OfficeController.list_by_company(id_company)
+@app.route('/offices', methods=["GET"])
+@token_required
+def list_by_company(current_user,type):
+    if (type == "company" and current_user):
+        company_id = current_user.id
+        return OfficeController.list_by_company(company_id)
+    return {"message":"Invalid permission"},401
 
 
 @app.route('/offices/<id_office>', methods=["DELETE"])
