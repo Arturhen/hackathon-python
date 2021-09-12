@@ -8,7 +8,7 @@ from config import db
 
 class AppointmentController:
     @staticmethod
-    def create(body):
+    def create(body,user_id,company_id):
         # Ver se é depois do dia
         if("date" not in body):
             return create_response(400, "Appointment", {"fields": "date is required"}, "Not Created")
@@ -18,14 +18,14 @@ class AppointmentController:
 
         try:
 
-            user = Users.query.filter_by(id=body["user"]).first()
-            office = Office.query.filter_by(id=body["office"]).first()
+            user = Users.query.filter_by(id=user_id,company=company_id).first()
+            office = Office.query.filter_by(id=body["office"],company=company_id).first()
 
             if(user.company != office.company):
                 return create_response(400, "Appointment", {}, "You do Not Have authorization")
 
             have_same_appointment = Appointments.query.filter_by(
-                date=body["date"], user=body["user"]).first()
+                date=body["date"], user=user_id).first()
             if(have_same_appointment is not None):
                 print(have_same_appointment.date)
                 return create_response(400, "Appointment", {"fields": "Another appointment like this one was set"}, "Not Created")
@@ -37,7 +37,7 @@ class AppointmentController:
                 return create_response(400, "Appointment", {}, "The Office is full that day")
 
             appoitment = Appointments(
-                date=body["date"], office=body["office"], user=body["user"])
+                date=body["date"], office=body["office"], user=user_id)
             db.session.add(appoitment)
             db.session.commit()
             return create_response(201, "Appointment", appoitment.to_json(), "Create Successful")

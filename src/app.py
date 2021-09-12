@@ -124,7 +124,7 @@ def delete_office(current_user,type,id_office):
 
 @app.route('/offices/<id_office>', methods=["PUT"])
 @token_required
-def upate_office(current_user,type,id_office):
+def update_office_by_company(current_user,type,id_office):
     if (type == "company" and current_user):
         body = request.get_json()
         company_id = current_user.id
@@ -133,9 +133,14 @@ def upate_office(current_user,type,id_office):
 
 
 @app.route('/appointments', methods=["POST"])
-def create_appointment():
-    body = request.get_json()
-    return AppointmentController.create(body)
+@token_required
+def create_appointment(current_user,type):
+    if(type == "user" and current_user):
+        user_id = current_user.id
+        company_id = current_user.company
+        body = request.get_json()
+        return AppointmentController.create(body,user_id,company_id)
+    return {"message":'Invalid permission'}, 401 
 
 
 @app.route('/appointments/<appointment_id>', methods=["DELETE"])
