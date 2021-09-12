@@ -8,7 +8,7 @@ from create_response import create_response
 
 class OfficeController:
     @staticmethod
-    def create(body):
+    def create(body,company_id):
 
         if(("max_percentage_occupation" not in body) or body["max_percentage_occupation"] > 100 or body["max_percentage_occupation"] < 0):
             return create_response(400, "Error", {"field": "max_percentage_occupation Invalid value(0 to 100)"})
@@ -17,7 +17,7 @@ class OfficeController:
             return create_response(400, "Error", {"field": "max_capacity need greater than 0"})
         try:
             office = Office(name=body["name"], max_capacity=body["max_capacity"],
-                            max_percentage_occupation=body["max_percentage_occupation"], company=body["company"])
+                            max_percentage_occupation=body["max_percentage_occupation"], company=company_id)
             db.session.add(office)
             db.session.commit()
             return create_response(201, "Office", office.to_json(), "Create Successful")
