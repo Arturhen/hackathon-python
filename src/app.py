@@ -55,9 +55,14 @@ def create_user():
     return UserController.create(body)
 
 
-@app.route('/users/<company>', methods=["GET"])
-def list_users_by_company(company):
-    return UserController.list_by_company(company)
+@app.route('/users', methods=["GET"])
+@token_required
+def list_users_by_company(current_user,type):
+    if (type == "company" and current_user):
+        company_id = current_user.id
+        return UserController.list_by_company(company_id)
+    return {"message":'Invalid permission'}, 401 
+
 
 
 @app.route('/users/<user_id>', methods=["DELETE"])
