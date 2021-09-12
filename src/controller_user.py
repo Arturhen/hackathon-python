@@ -9,19 +9,25 @@ from check_email import check_email
 
 class UserController:
     @staticmethod
-    def create(body):
+    def create(body,company_id):
 
         if(("email" not in body) or (not check_email(body["email"]))):
-            return create_response(400, "Error", {"field": "Email invalid format"}, "Usuario não Cadastrado")
+            return create_response(400, "Error", {"field": "Email invalid format"}, "User not Create")
 
         if(Users.query.filter_by(email=body["email"]).first()):
             return create_response(400, "Error", {"field": "Exist another user with this Email"})
-
+        
+        if("password" not in body):
+            return create_response(400, "Error", {"field": "Password is required"}, "User not Create")
+            
+        if("name" not in body):
+            return create_response(400, "Error", {"field": "Name is required"}, "User not Create")
+        
         password_hash =  bcrypt.hashpw(body["password"].encode('utf-8'), bcrypt.gensalt(8)).decode('utf8')
 
         try:
             user = Users(name=body["name"], email=body["email"],
-                         password=password_hash, company=body["company"])
+                         password=password_hash, company=company_id)
             db.session.add(user)
             db.session.commit()
             return create_response(201, "User", user.to_json(), "Create Successful")

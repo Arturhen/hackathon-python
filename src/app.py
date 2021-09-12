@@ -50,10 +50,13 @@ def delete(current_user,type):
 
 
 @app.route('/users', methods=["POST"])
-def create_user():
-    body = request.get_json()
-    return UserController.create(body)
-
+@token_required
+def create_user(current_user,type):
+    if (type == "company" and current_user):
+        company_id = current_user.id
+        body = request.get_json()
+        return UserController.create(body,company_id)
+    return {"message":'Invalid permission'}, 401 
 
 @app.route('/users', methods=["GET"])
 @token_required
