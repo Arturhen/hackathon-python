@@ -8,4 +8,3 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://root:root@db:5432/hackatho
 CORS(app)
 
 db = SQLAlchemy(app)
-
