@@ -35,10 +35,10 @@ class OfficeController:
         return create_response(200, "Offices", offices_json)
 
     @staticmethod
-    def delete(office_id):
+    def delete(office_id,company_id):
 
         try:
-            office_obj = Office.query.filter_by(id=office_id).first()
+            office_obj = Office.query.filter_by(id=office_id,company=company_id).first()
 
             if(office_obj is None):
                 return Response(status=404)

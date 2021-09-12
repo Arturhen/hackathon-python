@@ -115,9 +115,12 @@ def list_by_company(current_user,type):
 
 
 @app.route('/offices/<id_office>', methods=["DELETE"])
-def delete_office(id_office):
-    return OfficeController.delete(id_office)
-
+@token_required
+def delete_office(current_user,type,id_office):
+    if(type =="company" and current_user):
+        company_id = current_user.id
+        return OfficeController.delete(id_office,company_id)
+    return {"message":'Invalid permission'}, 401 
 
 @app.route('/offices/<id_office>', methods=["PUT"])
 def upate_office(id_office):
