@@ -25,7 +25,7 @@ def create():
 @app.route('/companies', methods=["GET"])
 @token_required
 def find(current_user,type):
-    if (type == "company"):
+    if (type == "company" and current_user):
         cnpj = current_user.cnpj
         return CompanieController.find(cnpj)
     return {"message":'Invalid permission'}, 401 
@@ -33,16 +33,20 @@ def find(current_user,type):
 @app.route("/companies", methods=["PUT"])
 @token_required
 def update_by_cnpj(current_user,type):
-    if (type == "company"):
+    if (type == "company" and current_user):
         cnpj = current_user.cnpj
         body = request.get_json()
         return CompanieController.update_by_cnpj(cnpj, body)
     return {"message":'Invalid permission'}, 401 
 
 
-@app.route("/companies/<cnpj>", methods=["DELETE"])
-def delete(cnpj):
-    return CompanieController.delete(cnpj)
+@app.route("/companies", methods=["DELETE"])
+@token_required
+def delete(current_user,type):
+    if (type == "company" and current_user):
+        cnpj = current_user.cnpj
+        return CompanieController.delete(cnpj)
+    return {"message":'Invalid permission'}, 401 
 
 
 @app.route('/users', methods=["POST"])
