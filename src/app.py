@@ -1,11 +1,11 @@
 import re
 from flask import request
-from controller_appointments import AppointmentController
+from controllers.controller_appointments import AppointmentController
 
-from controller_companies import CompanieController
-from controller_user import UserController
-from controller_office import OfficeController
-from login_controller import LoginController
+from controllers.controller_companies import CompanieController
+from controllers.controller_user import UserController
+from controllers.controller_office import OfficeController
+from controllers.login_controller import LoginController
 from config import app, db
 from utils.token_required import token_required
 

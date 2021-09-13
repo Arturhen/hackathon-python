@@ -3,9 +3,9 @@ import bcrypt
 from flask.json import jsonify
 import jwt
 
-from create_response import create_response
+from utils.create_response import create_response
 from libraries.cpf_cnpj import Cnpj
-from check_email import check_email
+from utils.check_email import check_email
 
 from models import Companies,Users
 

@@ -1,7 +1,7 @@
 import datetime
 from flask.wrappers import Response
 
-from create_response import create_response
+from utils.create_response import create_response
 from models import Appointments, Office, Users
 from config import db
 
@@ -9,7 +9,6 @@ from config import db
 class AppointmentController:
     @staticmethod
     def create(body,user_id,company_id):
-        # Ver se é depois do dia
         if("date" not in body):
             return create_response(400, "Appointment", {"fields": "date is required"}, "Not Created")
 
