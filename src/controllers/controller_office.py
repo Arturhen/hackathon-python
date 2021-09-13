@@ -1,9 +1,9 @@
 from flask.wrappers import Response
 
-from models import Office
+from models.models import Office
 
 from config import db
-from create_response import create_response
+from utils.create_response import create_response
 
 
 class OfficeController:

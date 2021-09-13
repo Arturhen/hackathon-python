@@ -2,8 +2,8 @@ from functools import wraps
 from flask import request
 import jwt
 
-from create_response import create_response
-from models import Companies, Users
+from utils.create_response import create_response
+from models.models import Companies, Users
 
 
 def token_required(f):
