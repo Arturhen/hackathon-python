@@ -1,4 +1,3 @@
-import re
 from flask import request
 from controllers.controller_appointments import AppointmentController
 
@@ -10,7 +9,6 @@ from config import app, db
 from utils.token_required import token_required
 
 db.create_all()
-
 
 # @app.route('/companies', methods=["GET"])
 # @token_required
