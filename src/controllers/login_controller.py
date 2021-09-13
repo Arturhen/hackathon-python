@@ -7,7 +7,7 @@ from utils.create_response import create_response
 from libraries.cpf_cnpj import Cnpj
 from utils.check_email import check_email
 
-from models import Companies,Users
+from models.models import Companies,Users
 
 class LoginController:
 

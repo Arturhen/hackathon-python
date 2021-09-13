@@ -2,7 +2,7 @@ from libraries.cpf_cnpj import Cnpj
 from flask import Response
 import bcrypt
 
-from models import Companies
+from models.models import Companies
 from utils.create_response import create_response
 from config import db
 

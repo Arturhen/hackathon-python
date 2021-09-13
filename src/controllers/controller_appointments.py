@@ -2,7 +2,7 @@ import datetime
 from flask.wrappers import Response
 
 from utils.create_response import create_response
-from models import Appointments, Office, Users
+from models.models import Appointments, Office, Users
 from config import db
 
 

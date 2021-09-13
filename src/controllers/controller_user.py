@@ -3,7 +3,7 @@ import bcrypt
 from flask.wrappers import Response
 
 from config import db
-from models import Users
+from models.models import Users
 from utils.create_response import create_response
 from utils.check_email import check_email
 
