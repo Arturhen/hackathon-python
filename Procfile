@@ -1,1 +1,0 @@
-web: python src/app.py run -h 0.0.0.0
