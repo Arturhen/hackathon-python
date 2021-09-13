@@ -4,8 +4,8 @@ from flask.wrappers import Response
 
 from config import db
 from models import Users
-from create_response import create_response
-from check_email import check_email
+from utils.create_response import create_response
+from utils.check_email import check_email
 
 class UserController:
     @staticmethod

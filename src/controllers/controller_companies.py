@@ -3,7 +3,7 @@ from flask import Response
 import bcrypt
 
 from models import Companies
-from create_response import create_response
+from utils.create_response import create_response
 from config import db
 
 
@@ -86,7 +86,6 @@ class CompanieController:
             print(e)
             return create_response(400, "Company", {}, "Error in update company")
 
-    # TEM QUE DELETAR TODOS USUARIOS E FILIAIS QUANDO FOR DELETADA
     @staticmethod
     def delete(cnpj):
 
