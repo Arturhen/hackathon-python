@@ -1,6 +1,7 @@
 from functools import wraps
 from flask import request
 import jwt
+from config import SECRET_KEY
 
 from utils.create_response import create_response
 from models.models import Companies, Users
@@ -9,7 +10,7 @@ from models.models import Companies, Users
 def token_required(f):
     @wraps(f)
     def decorated(*args,**kwargs):
-        secret ='4b6d207afe3bcc9381b1f0301733861277bca526ad029b2a'
+        secret = SECRET_KEY
 
         token = None
         if 'x-acess-token' in request.headers:

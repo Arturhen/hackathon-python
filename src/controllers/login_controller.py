@@ -2,6 +2,7 @@ import datetime
 import bcrypt
 from flask.json import jsonify
 import jwt
+from config import SECRET_KEY
 
 from utils.create_response import create_response
 from libraries.cpf_cnpj import Cnpj
@@ -14,7 +15,7 @@ class LoginController:
 
     @staticmethod
     def login_company(body):
-        secret ='4b6d207afe3bcc9381b1f0301733861277bca526ad029b2a'
+        secret = SECRET_KEY
           
         try:
 
@@ -47,7 +48,7 @@ class LoginController:
     @staticmethod
     def login_user(body):
         try:
-            secret ='4b6d207afe3bcc9381b1f0301733861277bca526ad029b2a'
+            secret = SECRET_KEY
 
             if not 'password'in body:
                 return create_response(400,'Missing password',{})
