@@ -21,7 +21,7 @@ Uma vez cadastrado pela empresa, o funcionario pode marcar seus agendamentos.
 A empresa consegue ter o controle dos agendamentos de seus funcionarios, e a lotação de cada escritório podendo a qualquer momento adicionar ou remover um escritório, ou até mesmo atualiza-lo em relação a quantidade de vagas e o ocupamento máx permitido por lei ou pela própria empresa. 
 
 ### DB - Diagrama ER    
-imagem
+<p align="center"><img src="https://github.com/Arturhen/hackathon-python/blob/master/img/db-er.png" width="500"/></p>
 ### Instalação
 #### Requisitos:
     -Docker
@@ -49,7 +49,7 @@ A documentação das rotas foi feita atravez do [👨🏽‍🚀Postman](https:/
 
 
 ## 👨🏽‍🚀 Autor 
-<img src="https://github.com/Arturhen.png" width="90">
+<img src="https://github.com/Arturhen.png" width="90"/>
 
 **Artur Henrique**
 
@@ -58,4 +58,4 @@ A documentação das rotas foi feita atravez do [👨🏽‍🚀Postman](https:/
 [![Linkedin Badge](https://img.shields.io/badge/-Artur_Henrique-blue?style=for-the-badge&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/artur-henrique-do-nascimento-souza/)](https://www.linkedin.com/in/artur-henrique-do-nascimento-souza/)
 
 ## 📝 Licença
-Este projeto esta sobe a licença MIT.
+Este projeto esta sobe a licença [MIT](https://github.com/Arturhen/hackathon-python/blob/master/LICENSE).
