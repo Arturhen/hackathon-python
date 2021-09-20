@@ -22,7 +22,9 @@ A empresa consegue ter o controle dos agendamentos de seus funcionarios, e a lot
 
 ### DB - Diagrama ER    
 <p align="center"><img src="https://github.com/Arturhen/hackathon-python/blob/master/img/db-er.png" width="500"/></p>
+
 ### Instalação
+
 #### Requisitos:
     -Docker
 
